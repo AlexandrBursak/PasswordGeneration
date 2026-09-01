@@ -1,0 +1,1 @@
+export { PasswordGeneratorScaffold } from "./PasswordGeneratorScaffold";

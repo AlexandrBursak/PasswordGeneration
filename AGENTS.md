@@ -28,4 +28,23 @@ the client bundle.
 
 Do not invent missing product requirements, API shapes, content, or design tokens.
 
-<!-- FILL: project-specific rules, links, commands, and deployment notes. -->
+## Project-specific rules
+
+- This MVP has no backend API, authentication, or server-side database. Do not add one without an
+  ADR and an update to `docs/architecture-map.md`.
+- Password generation must use Web Crypto. Never use `Math.random`, log generated passwords, or
+  transmit them.
+- Password history is an explicitly enabled, plaintext IndexedDB feature. Keep it local, never
+  synchronize it, and preserve a user-visible clear-all path.
+- Local checks: `pnpm lint`, `pnpm typecheck`, `pnpm test`, `pnpm build`, and `pnpm test:e2e`.
+- Docker Compose runs the `web` service; `pnpm dev` is the fast host workflow.
+
+<!-- BEGIN:nextjs-agent-rules -->
+
+# This is NOT the Next.js you know
+
+This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
+
+This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
+
+<!-- END:nextjs-agent-rules -->

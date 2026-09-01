@@ -7,16 +7,13 @@
 //   export default [ ...nextCoreWebVitals, ...nextTypeScript, ...layers ];
 //
 // The table this encodes lives in docs/architecture.md — change them together.
-import importPlugin from "eslint-plugin-import";
-
 const SEE = 'see docs/architecture.md, "Layer dependency rules"';
 const only = (layer, allowed) => `${layer}/ may import from ${allowed} only — ${SEE}.`;
 const bottom = (layer, why) => `${layer}/ sits at the bottom: ${why} — ${SEE}.`;
 
-export default [
+const layers = [
   {
     files: ["src/**/*.{ts,tsx,js,jsx,mjs,cjs}"],
-    plugins: { import: importPlugin },
     settings: {
       // Without a TypeScript-aware resolver the rule cannot resolve "../view/w" to a file and
       // silently passes — a lint that is always green. eslint-import-resolver-typescript is a
@@ -60,3 +57,5 @@ export default [
     },
   },
 ];
+
+export default layers;

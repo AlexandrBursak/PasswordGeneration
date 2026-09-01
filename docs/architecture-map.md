@@ -2,7 +2,7 @@
 status: current
 mode: greenfield-bootstrap
 updated_at: "2026-09-01"
-reflects_commit: "edc2b93"
+reflects_commit: "3991702"
 language: "TypeScript (strict mode)"
 build_cmd: "pnpm build"
 test_cmd: "pnpm test"
@@ -84,8 +84,8 @@ C4Container
 
 - Persisted passwords are not encrypted in the MVP. The UI must explain that same-origin scripts can read them and must require explicit opt-in (`docs/adr/0003-indexeddb-opt-in-password-history.md`).
 - No product design source or final token palette exists yet; scaffold structural tokens without inventing a branded design.
-- The repository currently contains only the baseline and foundation documents; all target paths above are created by the scaffold stage.
-- `eslint.layers.mjs` is installed but remains ineffective until scaffold wires it into `eslint.config.mjs` and installs both required resolver packages (`docs/architecture.md:85-101`).
+- The scaffolded project structure, test harnesses, IndexedDB adapter, and CI workflow now exist; the first product feature should extend the generator widget rather than replace the skeleton.
+- `eslint.layers.mjs` is wired into `eslint.config.mjs`; `eslint-plugin-import` and `eslint-import-resolver-typescript` are installed and a forbidden-layer fixture was verified to fail lint (`docs/architecture.md:85-101`).
 
 ## Reconciliation with the authored architecture doc
 

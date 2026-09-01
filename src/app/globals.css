@@ -1,0 +1,17 @@
+:root {
+  --color-surface: Canvas;
+  --color-text: CanvasText;
+  --space-page: 1.5rem;
+  --radius-control: 0.5rem;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  color: var(--color-text);
+  background: var(--color-surface);
+  font-family: system-ui, sans-serif;
+}
