@@ -1,0 +1,59 @@
+{
+  "slug": "_scaffold",
+  "tasks": [
+    {
+      "id": "S1",
+      "title": "Create the Next.js TypeScript project and RexSoft layer structure",
+      "layer": "scaffold",
+      "deps": [],
+      "acs": [],
+      "dod": "`pnpm build` succeeds; `pnpm dev` boots the empty application; source folders match the architecture map without empty data/providers layers",
+      "files_hint": ["package.json", "src/app/", "src/entities/password/", "src/shared/", "src/view/widgets/PasswordGenerator/"]
+    },
+    {
+      "id": "S2",
+      "title": "Wire unit, UI behavior, and browser smoke test harnesses",
+      "layer": "scaffold",
+      "deps": ["S1"],
+      "acs": [],
+      "dod": "`pnpm test` runs green, the application boot smoke test passes, and Playwright can load the home route",
+      "files_hint": ["vitest.config.ts", "playwright.config.ts", "tests/"]
+    },
+    {
+      "id": "S3",
+      "title": "Add the typed IndexedDB history adapter and schema smoke test",
+      "layer": "scaffold",
+      "deps": ["S1", "S2"],
+      "acs": [],
+      "dod": "the IndexedDB schema opens and upgrades in the test harness; opt-in gating, write/read, disable, and clear-history smoke tests pass",
+      "files_hint": ["src/shared/lib/passwordHistory/", "tests/passwordHistory.test.ts"]
+    },
+    {
+      "id": "S4",
+      "title": "Wire ESLint layer enforcement and TypeScript checks",
+      "layer": "scaffold",
+      "deps": ["S1"],
+      "acs": [],
+      "dod": "`pnpm lint` and `pnpm typecheck` pass; a temporary forbidden-layer fixture is rejected before removal; both eslint-plugin-import and eslint-import-resolver-typescript are installed",
+      "files_hint": ["eslint.config.mjs", "eslint.layers.mjs", "tsconfig.json"]
+    },
+    {
+      "id": "S5",
+      "title": "Add CI for build, lint, typecheck, and tests",
+      "layer": "scaffold",
+      "deps": ["S2", "S4"],
+      "acs": [],
+      "dod": "the GitHub Actions workflow is syntactically valid and runs pnpm install, lint, typecheck, test, and build using the same commands as the architecture map",
+      "files_hint": [".github/workflows/ci.yml"]
+    },
+    {
+      "id": "S6",
+      "title": "Document setup, security boundary, and project conventions",
+      "layer": "scaffold",
+      "deps": ["S1", "S3", "S4"],
+      "acs": [],
+      "dod": "README and project guidance document the local workflow, Web Crypto requirement, opt-in plaintext IndexedDB risk, layer ownership, and full history-clear behavior",
+      "files_hint": ["README.md", "AGENTS.md", ".env.example"]
+    }
+  ]
+}
