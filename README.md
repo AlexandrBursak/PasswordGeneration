@@ -17,6 +17,14 @@ The canonical container workflow is:
 docker compose up --build
 ```
 
+If port 3000 is occupied, select another host port:
+
+```sh
+PORT=3001 docker compose up --build
+```
+
+Then open http://localhost:3001. Stop the stack with `docker compose down`.
+
 ## Verification
 
 ```sh
