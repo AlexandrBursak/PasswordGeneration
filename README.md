@@ -11,19 +11,32 @@ pnpm dev
 
 Open http://localhost:3000.
 
-The canonical container workflow is:
+Run the development container with the development override:
 
 ```sh
-docker compose up --build
+docker compose -f compose.yml -f compose.dev.yml up --build
 ```
 
 If port 3000 is occupied, select another host port:
 
 ```sh
-PORT=3001 docker compose up --build
+PORT=3001 docker compose -f compose.yml -f compose.dev.yml up --build
 ```
 
-Then open http://localhost:3001. Stop the stack with `docker compose down`.
+Then open http://localhost:3001. Stop the stack with
+`docker compose -f compose.yml -f compose.dev.yml down`.
+
+## Production deployment
+
+`compose.yml` is the production configuration. It builds the optimized image and starts
+`next start`; it does not bind-mount source code or override the image command.
+
+```sh
+git pull
+docker compose down
+docker compose up --build -d
+docker compose logs -f web
+```
 
 ## Verification
 

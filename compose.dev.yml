@@ -1,0 +1,13 @@
+services:
+  web:
+    command: node_modules/.bin/next dev
+    environment:
+      CI: "true"
+    volumes:
+      - .:/app
+      - node_modules:/app/node_modules
+      - next_cache:/app/.next
+
+volumes:
+  node_modules:
+  next_cache:
