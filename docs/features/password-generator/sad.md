@@ -140,6 +140,109 @@ sequenceDiagram
 
 **Critical flow 2: copy failure** — The web frontend keeps the generated password visible and shows a plain-language failure message when the browser cannot complete the requested copy action.
 
+### Generate a password from a policy
+
+The person selects a length and character groups, then the UI validates the policy before generation. A valid policy produces a password containing every selected group and no unselected groups; an invalid policy leaves the controls unchanged with plain-language feedback.
+
+```mermaid
+sequenceDiagram
+    actor person
+    participant UI as ui
+    participant Service as service
+    participant Store as data-store
+    person->>UI: Selects length and character groups
+    person->>UI: Requests generation
+    UI->>Service: Validates policy and generates password
+    alt Valid policy
+        Service-->>UI: Returns generated password
+        UI-->>person: Shows freshly generated password
+    else Invalid policy
+        Service-->>UI: Returns validation explanation
+        UI-->>person: Shows invalid-selection feedback
+    end
+```
+
+### Copy a generated password
+
+The person requests copying only after a password is visible. The UI reports success when the browser accepts the copy action and keeps the password visible with an explanation when the action is unavailable.
+
+```mermaid
+sequenceDiagram
+    actor person
+    participant UI as ui
+    participant Service as service
+    participant Browser as external-system
+    person->>UI: Requests copy
+    UI->>Service: Requests copy of visible password
+    Service->>Browser: Places password on clipboard
+    alt Copy succeeds
+        Browser-->>Service: Confirms copy
+        Service-->>UI: Returns success
+        UI-->>person: Confirms password is ready to paste
+    else Copy unavailable
+        Browser-->>Service: Reports unavailable copy action
+        Service-->>UI: Returns plain-language explanation
+        UI-->>person: Shows retryable copy error
+    end
+```
+
+### Enable, retain, and disable password history
+
+The person explicitly enables history after reading the plaintext-local-storage warning. The UI stores generated passwords only while history is enabled; disabling prevents future storage but does not remove existing records.
+
+```mermaid
+sequenceDiagram
+    actor person
+    participant UI as ui
+    participant Service as service
+    participant Store as data-store
+    person->>UI: Chooses to enable history
+    UI-->>person: Shows local plaintext warning
+    alt Person confirms
+        person->>UI: Confirms opt-in
+        UI->>Service: Enables history
+        Service->>Store: Persists history setting
+        Note over Service,Store: persists history setting
+        Service-->>UI: Returns enabled state
+        UI-->>person: Shows enabled history state
+    else Person declines
+        UI-->>person: Keeps history disabled
+    end
+    person->>UI: Disables history later
+    UI->>Service: Disables future history retention
+    Service->>Store: Persists disabled setting
+    Note over Service,Store: persists history setting
+    Service-->>UI: Returns disabled state with existing history
+    UI-->>person: Shows disabled state and retained records
+```
+
+### View and clear password history
+
+The person can view records retained under earlier consent after returning to the application and can clear all records explicitly.
+
+```mermaid
+sequenceDiagram
+    actor person
+    participant UI as ui
+    participant Service as service
+    participant Store as data-store
+    person->>UI: Opens password history
+    UI->>Service: Requests retained history
+    Service->>Store: Reads retained records
+    Store-->>Service: Returns records
+    Service-->>UI: Returns retained history
+    UI-->>person: Shows retained passwords
+    person->>UI: Requests clear history
+    UI->>Service: Clears retained history
+    Service->>Store: Removes retained records
+    Note over Service,Store: persists empty history
+    Store-->>Service: Confirms clear
+    Service-->>UI: Returns empty history
+    UI-->>person: Confirms retained passwords were removed
+```
+
+**Coverage map.** US-01, US-02, and US-03 plus AC-01, AC-02, and AC-04 are covered by “Generate a password from a policy”. US-04 plus AC-06 and AC-10 are covered by “Copy a generated password”. US-05 plus AC-03, AC-05, AC-08, and AC-09 are covered by “Enable, retain, and disable password history”. US-06 plus AC-07 are covered by “View and clear password history”.
+
 ## 7. Deployment view
 
 <!-- N/A: reuses the existing Next.js Docker Compose web service; no new infrastructure or deployment unit is introduced. -->
