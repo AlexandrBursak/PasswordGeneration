@@ -8,7 +8,7 @@ build_cmd: "pnpm build"
 test_cmd: "pnpm test"
 lint_cmd: "pnpm lint"
 migration_tool: ""
-frontend: "Next.js App Router + React + CSS Modules"
+frontend: "Next.js App Router + React + Tailwind CSS + shadcn/ui"
 ---
 
 # Architecture map — passGeneration
@@ -67,10 +67,10 @@ C4Container
 
 ## Frontend / UI foundation
 
-- **Component library / design system:** small in-repository primitives under `src/shared/ui/`; no third-party component kit is required for the scaffold (`docs/architecture.md:81`).
-- **Design tokens:** CSS custom properties in `src/app/globals.css`; concrete colors, spacing, radius, and typography are deferred to the product design stage (`docs/architecture.md:74-82`).
-- **Styling approach:** CSS Modules for product UI plus global CSS variables for tokens (`docs/architecture.md:74-82`).
-- **Shared primitives:** scaffold `Button`, `Checkbox`, `Range`, and `Switch` only as the generator UI needs them; domain-aware controls stay in `view/` (`docs/architecture.md:65-70`).
+- **Component library / design system:** shadcn/ui primitives live in `src/components/ui/`; they are application-owned source files built on Base UI and Tailwind CSS (`components.json`, `src/components/ui/`).
+- **Design tokens:** shadcn CSS custom properties in `src/app/globals.css` provide color, radius, and typography tokens.
+- **Styling approach:** Tailwind CSS utility classes for product UI plus global CSS variables for tokens; existing CSS Modules can remain for widget-specific styles where appropriate.
+- **Shared primitives:** `Button`, `Card`, `Checkbox`, `Input`, `Slider`, `Label`, and `Alert` are in `src/components/ui/`; domain-aware controls stay in `view/` (`docs/architecture.md:65-70`).
 - **State / data-fetching:** local React state for the active policy; a typed IndexedDB adapter for opt-in history; no server-cache library.
 - **Closest UI precedent:** none exists yet. The first generator widget becomes the project precedent and must be responsive at mobile, tablet, and desktop widths.
 

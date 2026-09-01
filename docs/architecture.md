@@ -109,3 +109,6 @@ The table and the preset are one rule in two places — change them together.
 
 <!-- FILL: domain modules, the design source, deployment notes, anything survey should treat as
      given rather than discover. -->
+
+- UI uses Tailwind CSS and shadcn/ui primitives under `src/components/ui/`. Product-specific
+  controls remain in `src/view/`; the primitives do not import domain types.
