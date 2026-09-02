@@ -14,6 +14,21 @@ describe("production build resource controls", () => {
     expect(dockerfile).toContain("pnpm install --frozen-lockfile --trust-lockfile");
   });
 
+  it("caps Node memory and serializes Next build workers", () => {
+    const dockerfile = readFileSync("docker/Dockerfile", "utf8");
+    const nextConfig = readFileSync("next.config.ts", "utf8");
+
+    expect(dockerfile).toContain("NODE_OPTIONS=--max-old-space-size=192 pnpm install");
+    expect(dockerfile).toContain("NODE_OPTIONS=--max-old-space-size=256 CI=true pnpm build");
+    expect(nextConfig).toContain("cpus: 1");
+  });
+
+  it("leaves type checking to the required CI typecheck gate", () => {
+    const nextConfig = readFileSync("next.config.ts", "utf8");
+
+    expect(nextConfig).toContain("ignoreBuildErrors: true");
+  });
+
   it("enables the low-memory Webpack optimization", () => {
     const nextConfig = readFileSync("next.config.ts", "utf8");
 

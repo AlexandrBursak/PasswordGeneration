@@ -10,13 +10,13 @@ COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 RUN corepack enable
 RUN --mount=type=cache,id=passgeneration-pnpm,target=/pnpm/store,sharing=locked \
     pnpm config set store-dir /pnpm/store && \
-    pnpm install --frozen-lockfile --trust-lockfile --network-concurrency=1 --child-concurrency=1
+    NODE_OPTIONS=--max-old-space-size=192 pnpm install --frozen-lockfile --trust-lockfile --network-concurrency=1 --child-concurrency=1
 
 FROM dependencies AS build
 
 COPY . .
 RUN --mount=type=cache,id=passgeneration-next,target=/app/.next/cache,sharing=locked \
-    CI=true pnpm build
+    NODE_OPTIONS=--max-old-space-size=256 CI=true pnpm build
 
 FROM node:24-alpine AS runtime
 
