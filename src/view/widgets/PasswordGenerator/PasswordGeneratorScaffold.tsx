@@ -63,7 +63,7 @@ export function PasswordGeneratorScaffold() {
   async function clear() { await clearPasswordHistory(); setHistory([]); setMessage("Password history cleared."); }
 
   return (
-    <main className="min-h-screen bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-sky-100 via-background to-background px-4 py-10 sm:px-6 lg:py-16 dark:from-sky-950/40">
+    <main className="min-h-[calc(100svh-4rem)] bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-sky-100 via-background to-background px-4 py-10 sm:px-6 lg:py-16 dark:from-sky-950/40">
       <div className="mx-auto grid w-full max-w-5xl gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
         <header className="space-y-5 lg:pr-8">
           <div className="inline-flex items-center gap-2 rounded-full border bg-background/70 px-3 py-1.5 text-sm text-muted-foreground shadow-sm backdrop-blur">
