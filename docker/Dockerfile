@@ -10,7 +10,7 @@ COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 RUN corepack enable
 RUN --mount=type=cache,id=passgeneration-pnpm,target=/pnpm/store,sharing=locked \
     pnpm config set store-dir /pnpm/store && \
-    pnpm install --frozen-lockfile --network-concurrency=1 --child-concurrency=1
+    pnpm install --frozen-lockfile --trust-lockfile --network-concurrency=1 --child-concurrency=1
 
 FROM dependencies AS build
 

@@ -8,6 +8,12 @@ describe("production build resource controls", () => {
     expect(dockerfile).toContain("--mount=type=cache,id=passgeneration-next,target=/app/.next/cache");
   });
 
+  it("does not re-verify the repository's trusted frozen lockfile", () => {
+    const dockerfile = readFileSync("docker/Dockerfile", "utf8");
+
+    expect(dockerfile).toContain("pnpm install --frozen-lockfile --trust-lockfile");
+  });
+
   it("enables the low-memory Webpack optimization", () => {
     const nextConfig = readFileSync("next.config.ts", "utf8");
 
