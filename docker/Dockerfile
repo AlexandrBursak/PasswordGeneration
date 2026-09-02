@@ -1,14 +1,22 @@
+# syntax=docker/dockerfile:1
+
 FROM node:24-alpine AS dependencies
 
 WORKDIR /app
+ENV PNPM_HOME=/pnpm
+ENV PATH=$PNPM_HOME:$PATH
 
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
-RUN corepack enable && pnpm install --frozen-lockfile --network-concurrency=1 --child-concurrency=1
+RUN corepack enable
+RUN --mount=type=cache,id=passgeneration-pnpm,target=/pnpm/store,sharing=locked \
+    pnpm config set store-dir /pnpm/store && \
+    pnpm install --frozen-lockfile --network-concurrency=1 --child-concurrency=1
 
 FROM dependencies AS build
 
 COPY . .
-RUN CI=true pnpm build
+RUN --mount=type=cache,id=passgeneration-next,target=/app/.next/cache,sharing=locked \
+    CI=true pnpm build
 
 FROM node:24-alpine AS runtime
 
