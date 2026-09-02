@@ -3,7 +3,7 @@ FROM node:24-alpine AS dependencies
 WORKDIR /app
 
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
-RUN corepack enable && pnpm install --frozen-lockfile
+RUN corepack enable && pnpm install --frozen-lockfile --network-concurrency=1 --child-concurrency=1
 
 FROM dependencies AS build
 
