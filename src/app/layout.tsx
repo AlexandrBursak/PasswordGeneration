@@ -10,7 +10,7 @@ const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
 export const metadata: Metadata = {
   title: "passGeneration",
-  description: "A browser-based password generator.",
+  description: "A browser-based password and UUID generator.",
 };
 
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {

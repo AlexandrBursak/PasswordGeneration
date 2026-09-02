@@ -51,7 +51,7 @@ pnpm test:e2e
 ## Architecture
 
 - `src/app/` composes routes and global styles.
-- `src/entities/password/` contains framework-free password domain types.
+- `src/entities/password/` and `src/entities/uuid/` contain framework-free generator logic and types.
 - `src/shared/` contains reusable infrastructure, generic primitives, Web Crypto utilities, and browser persistence adapters.
 - `src/view/` contains domain-aware interactive UI.
 

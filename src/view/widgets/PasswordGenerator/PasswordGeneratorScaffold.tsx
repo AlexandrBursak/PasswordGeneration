@@ -26,10 +26,13 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
+import { UUIDGeneratorPanel } from "./UUIDGeneratorPanel";
 
 const labels: Record<CharacterGroup, string> = { lowercase: "Lowercase", uppercase: "Uppercase", digits: "Digits", symbols: "Symbols" };
+type GeneratorMode = "password" | "uuid";
 
 export function PasswordGeneratorScaffold() {
+  const [generatorMode, setGeneratorMode] = useState<GeneratorMode>("password");
   const [length, setLength] = useState(16);
   const [groups, setGroups] = useState<CharacterGroup[]>(["lowercase", "uppercase", "digits"]);
   const [password, setPassword] = useState("");
@@ -72,20 +75,43 @@ export function PasswordGeneratorScaffold() {
           </div>
           <div className="space-y-3">
             <h1 className="font-heading text-4xl font-semibold tracking-tight sm:text-5xl">passGeneration</h1>
-            <p className="max-w-md text-base leading-7 text-muted-foreground sm:text-lg">Create strong, unique passwords in your browser. Nothing is sent anywhere.</p>
+            <p className="max-w-md text-base leading-7 text-muted-foreground sm:text-lg">Create strong passwords and UUIDs in your browser. Nothing is sent anywhere.</p>
           </div>
           <div className="flex items-start gap-3 rounded-xl border bg-background/60 p-4 text-sm text-muted-foreground shadow-sm backdrop-blur">
             <LockKeyhole className="mt-0.5 size-4 shrink-0 text-primary" aria-hidden="true" />
-            <p>Generation uses Web Crypto. Password history is optional and remains only on this device.</p>
+            <p>Generation uses Web Crypto. UUIDs stay in your browser, and password history remains optional.</p>
           </div>
         </header>
 
         <Card className="border-border/70 bg-card/95 shadow-xl shadow-slate-950/5 backdrop-blur dark:shadow-black/20">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-xl"><Sparkles className="size-5 text-primary" aria-hidden="true" /> Generate a password</CardTitle>
-            <CardDescription>Choose a length and the character groups you want to include.</CardDescription>
+            <div role="tablist" aria-label="Generator type" className="mb-3 grid grid-cols-2 gap-1 rounded-lg bg-muted p-1">
+              {(["password", "uuid"] as const).map((mode) => (
+                <button
+                  key={mode}
+                  type="button"
+                  role="tab"
+                  aria-selected={generatorMode === mode}
+                  onClick={() => setGeneratorMode(mode)}
+                  className="rounded-md px-3 py-2 text-sm font-medium text-muted-foreground transition-colors aria-selected:bg-background aria-selected:text-foreground aria-selected:shadow-sm"
+                >
+                  {mode === "password" ? "Password" : "UUID"}
+                </button>
+              ))}
+            </div>
+            <CardTitle className="flex items-center gap-2 text-xl">
+              <Sparkles className="size-5 text-primary" aria-hidden="true" />
+              <h2>{generatorMode === "password" ? "Generate a password" : "Generate UUIDs"}</h2>
+            </CardTitle>
+            <CardDescription>
+              {generatorMode === "password"
+                ? "Choose a length and the character groups you want to include."
+                : "Choose a UUID version and generate one identifier or a batch."}
+            </CardDescription>
           </CardHeader>
           <CardContent className="space-y-7">
+            {generatorMode === "password" ? (
+              <>
             <section className="space-y-3" aria-labelledby="length-label">
               <div className="flex items-center justify-between gap-4">
                 <Label id="length-label" htmlFor="password-length" className="text-sm font-medium">Password length</Label>
@@ -128,9 +154,13 @@ export function PasswordGeneratorScaffold() {
             </div>
 
             {message && <Alert><AlertDescription role="status">{message}</AlertDescription></Alert>}
+              </>
+            ) : (
+              <UUIDGeneratorPanel />
+            )}
           </CardContent>
 
-          {history.length > 0 && (
+          {generatorMode === "password" && history.length > 0 && (
             <CardFooter className="flex-col items-stretch gap-3">
               <div className="flex items-center justify-between gap-4">
                 <h2 className="flex items-center gap-2 text-sm font-medium"><History className="size-4" aria-hidden="true" /> Password history</h2>
