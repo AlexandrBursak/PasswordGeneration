@@ -1,4 +1,4 @@
-import { FileText, KeyRound } from "lucide-react";
+import { FileText, KeyRound, Link } from "lucide-react";
 
 const services = [
   {
@@ -13,13 +13,19 @@ const services = [
     icon: FileText,
     current: false,
   },
+  {
+    href: "https://snap-link.rexsoftproduction.com/",
+    label: "Snap Link",
+    icon: Link,
+    current: false,
+  },
 ] as const;
 
 export function ServiceNavigation() {
   return (
     <header className="h-16 border-b bg-background/85 backdrop-blur">
       <nav aria-label="RexSoft services" className="mx-auto flex h-full w-full max-w-5xl items-center px-4 sm:px-6">
-        <ul className="grid w-full grid-cols-2 gap-2 sm:ml-auto sm:w-auto">
+        <ul className="grid w-full grid-cols-3 gap-2 sm:ml-auto sm:w-auto">
           {services.map(({ href, label, icon: Icon, current }) => (
             <li key={href}>
               <a
