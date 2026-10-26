@@ -11,10 +11,12 @@ test("shows navigation between RexSoft services", async ({ page }) => {
 
   const passwordGeneratorLink = page.getByRole("link", { name: "Password Generator" });
   const markdownConverterLink = page.getByRole("link", { name: "Markdown to HTML" });
+  const snapLinkLink = page.getByRole("link", { name: "Snap Link" });
 
   await expect(passwordGeneratorLink).toHaveAttribute("aria-current", "page");
   await expect(passwordGeneratorLink).toHaveAttribute("href", "https://passgen.rexsoftproduction.com/");
   await expect(markdownConverterLink).toHaveAttribute("href", "https://markdown-convertor.rexsoftproduction.com/");
+  await expect(snapLinkLink).toHaveAttribute("href", "https://snap-link.rexsoftproduction.com/");
 });
 
 test("updates the password length with the slider", async ({ page }) => {
