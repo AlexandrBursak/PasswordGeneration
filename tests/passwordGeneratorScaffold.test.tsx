@@ -8,7 +8,7 @@ describe("PasswordGeneratorScaffold", () => {
   it("renders the generator scaffold", () => {
     render(createElement(PasswordGeneratorScaffold));
 
-    expect(screen.getByRole("heading", { name: "passGeneration" })).toBeInTheDocument();
+    expect(screen.getByRole("heading", { level: 1, name: "Password Generator" })).toBeInTheDocument();
   });
 
   it("switches from password generation to UUID generation", async () => {

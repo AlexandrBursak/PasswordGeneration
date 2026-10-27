@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Copy, History, LockKeyhole, RefreshCw, ShieldCheck, Sparkles, Trash2 } from "lucide-react";
+import { Copy, History, RefreshCw, Sparkles, Trash2 } from "lucide-react";
 
 import {
   CHARACTER_GROUPS,
@@ -66,24 +66,14 @@ export function PasswordGeneratorScaffold() {
   async function clear() { await clearPasswordHistory(); setHistory([]); setMessage("Password history cleared."); }
 
   return (
-    <main className="min-h-[calc(100svh-4rem)] bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-sky-100 via-background to-background px-4 py-10 sm:px-6 lg:py-16 dark:from-sky-950/40">
-      <div className="mx-auto grid w-full max-w-5xl gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
-        <header className="space-y-5 lg:pr-8">
-          <div className="inline-flex items-center gap-2 rounded-full border bg-background/70 px-3 py-1.5 text-sm text-muted-foreground shadow-sm backdrop-blur">
-            <ShieldCheck className="size-4 text-primary" aria-hidden="true" />
-            Private by design
-          </div>
-          <div className="space-y-3">
-            <h1 className="font-heading text-4xl font-semibold tracking-tight sm:text-5xl">passGeneration</h1>
-            <p className="max-w-md text-base leading-7 text-muted-foreground sm:text-lg">Create strong passwords and UUIDs in your browser. Nothing is sent anywhere.</p>
-          </div>
-          <div className="flex items-start gap-3 rounded-xl border bg-background/60 p-4 text-sm text-muted-foreground shadow-sm backdrop-blur">
-            <LockKeyhole className="mt-0.5 size-4 shrink-0 text-primary" aria-hidden="true" />
-            <p>Generation uses Web Crypto. UUIDs stay in your browser, and password history remains optional.</p>
-          </div>
-        </header>
+    <main className="mx-auto w-[min(100%-2rem,75rem)] pb-8">
+      <div className="mb-6 border-b pt-8 pb-6">
+        <h1 className="font-heading text-3xl font-semibold tracking-tight">Password Generator</h1>
+        <p className="mt-2 text-muted-foreground">Create strong passwords and UUIDs in your browser with Web Crypto. Nothing is sent anywhere.</p>
+      </div>
 
-        <Card className="border-border/70 bg-card/95 shadow-xl shadow-slate-950/5 backdrop-blur dark:shadow-black/20">
+      <section aria-label="Generator">
+        <Card>
           <CardHeader>
             <div role="tablist" aria-label="Generator type" className="mb-3 grid grid-cols-2 gap-1 rounded-lg bg-muted p-1">
               {(["password", "uuid"] as const).map((mode) => (
@@ -109,9 +99,10 @@ export function PasswordGeneratorScaffold() {
                 : "Choose a UUID version and generate one identifier or a batch."}
             </CardDescription>
           </CardHeader>
-          <CardContent className="space-y-7">
+          <CardContent>
             {generatorMode === "password" ? (
-              <>
+              <div className="grid gap-7 lg:grid-cols-2 lg:gap-10">
+            <div className="space-y-7">
             <section className="space-y-3" aria-labelledby="length-label">
               <div className="flex items-center justify-between gap-4">
                 <Label id="length-label" htmlFor="password-length" className="text-sm font-medium">Password length</Label>
@@ -132,7 +123,9 @@ export function PasswordGeneratorScaffold() {
                 ))}
               </div>
             </fieldset>
+            </div>
 
+            <div className="space-y-7">
             {password && (
               <section className="space-y-2" aria-labelledby="generated-password-label">
                 <Label id="generated-password-label" className="text-sm font-medium">Generated password</Label>
@@ -154,7 +147,8 @@ export function PasswordGeneratorScaffold() {
             </div>
 
             {message && <Alert><AlertDescription role="status">{message}</AlertDescription></Alert>}
-              </>
+            </div>
+              </div>
             ) : (
               <UUIDGeneratorPanel />
             )}
@@ -172,7 +166,7 @@ export function PasswordGeneratorScaffold() {
             </CardFooter>
           )}
         </Card>
-      </div>
+      </section>
     </main>
   );
 }
