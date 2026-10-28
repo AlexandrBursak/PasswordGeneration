@@ -150,7 +150,7 @@ export function PasswordGeneratorScaffold() {
             </div>
               </div>
             ) : (
-              <UUIDGeneratorPanel />
+              <div className="space-y-7"><UUIDGeneratorPanel /></div>
             )}
           </CardContent>
 
