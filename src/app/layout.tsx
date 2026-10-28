@@ -2,11 +2,8 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 
 import "./globals.css";
-import { Geist } from "next/font/google";
-import { cn } from "@/lib/utils";
-import { ServiceNavigation } from "@/view/components/ServiceNavigation";
-
-const geist = Geist({subsets:['latin'],variable:'--font-sans'});
+import { themeBootScript } from "@/shared/lib/themePreference";
+import { ServiceHeader } from "@/view/components/ServiceHeader";
 
 export const metadata: Metadata = {
   title: "passGeneration",
@@ -15,9 +12,13 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
   return (
-    <html lang="uk" className={cn("font-sans", geist.variable)}>
+    // The boot script sets data-theme before hydration.
+    <html lang="uk" className="font-sans" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeBootScript }} />
+      </head>
       <body>
-        <ServiceNavigation />
+        <ServiceHeader />
         {children}
       </body>
     </html>
