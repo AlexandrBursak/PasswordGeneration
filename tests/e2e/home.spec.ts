@@ -76,3 +76,15 @@ test("generates single and batch UUIDs", async ({ page }) => {
   expect(generatedUUIDs).toHaveLength(3);
   expect(generatedUUIDs.every((uuid) => /^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/.test(uuid))).toBe(true);
 });
+
+test("spaces the UUID controls apart", async ({ page }) => {
+  await page.goto("/");
+  await page.getByRole("tab", { name: "UUID" }).click();
+
+  const version = (await page.getByRole("group", { name: "UUID version" }).boundingBox())!;
+  const mode = (await page.getByRole("group", { name: "Generation mode" }).boundingBox())!;
+  const button = (await page.getByRole("button", { name: "Generate UUID", exact: true }).boundingBox())!;
+
+  expect(mode.y - (version.y + version.height)).toBeGreaterThanOrEqual(24);
+  expect(button.y - (mode.y + mode.height)).toBeGreaterThanOrEqual(24);
+});
