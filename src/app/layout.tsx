@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 
 import "./globals.css";
 import { themeBootScript } from "@/shared/lib/themePreference";
+import { ServiceFooter } from "@/view/components/ServiceFooter";
 import { ServiceHeader } from "@/view/components/ServiceHeader";
 
 export const metadata: Metadata = {
@@ -17,9 +18,10 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeBootScript }} />
       </head>
-      <body>
+      <body className="flex min-h-dvh flex-col">
         <ServiceHeader />
         {children}
+        <ServiceFooter />
       </body>
     </html>
   );

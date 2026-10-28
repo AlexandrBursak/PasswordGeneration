@@ -66,7 +66,7 @@ export function PasswordGeneratorScaffold() {
   async function clear() { await clearPasswordHistory(); setHistory([]); setMessage("Password history cleared."); }
 
   return (
-    <main className="mx-auto w-[min(100%-2rem,75rem)] pb-8">
+    <main className="mx-auto w-[min(100%-2rem,75rem)] flex-1 pb-8">
       <div className="mb-6 border-b pt-8 pb-6">
         <h1 className="font-heading text-3xl font-semibold tracking-tight">Password Generator</h1>
         <p className="mt-2 text-muted-foreground">Create strong passwords and UUIDs in your browser with Web Crypto. Nothing is sent anywhere.</p>

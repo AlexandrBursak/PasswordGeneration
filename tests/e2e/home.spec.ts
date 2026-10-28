@@ -88,3 +88,14 @@ test("spaces the UUID controls apart", async ({ page }) => {
   expect(mode.y - (version.y + version.height)).toBeGreaterThanOrEqual(24);
   expect(button.y - (mode.y + mode.height)).toBeGreaterThanOrEqual(24);
 });
+
+test("pins the footer to the bottom of a short page", async ({ page }) => {
+  await page.setViewportSize({ width: 1600, height: 1200 });
+  await page.goto("/");
+  const footer = page.getByRole("contentinfo");
+  await expect(footer).toContainText("RexSoft");
+
+  const bottom = await footer.evaluate((el) => el.getBoundingClientRect().bottom + window.scrollY);
+  const pageHeight = await page.evaluate(() => Math.max(window.innerHeight, document.documentElement.scrollHeight));
+  expect(Math.abs(bottom - pageHeight)).toBeLessThan(2);
+});
